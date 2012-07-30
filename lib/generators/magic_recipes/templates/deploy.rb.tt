@@ -1,0 +1,75 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#   Magic - Recipes 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#   Usage:
+#   magic_recipes :rvm, :nginx, :private_pub, :thin
+#   available:
+#   :rvm, :rbenv, :nginx, :private_pub, :thin, :passenger, :unicorn, :assets, :gems
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+magic_recipes :rvm, :nginx, :private_pub, :thin
+
+
+server      "0.0.0.0",      :web,   :app,   :db,    :primary => true
+
+set :user,          "deploy"                                #=> ssh-user
+set :password,      "password"                              #=> sudo-pwd
+set :domains,       ["example.com", "www.example.com"]      #=> domain list
+set :application,   "example-app"                           #=> app / folder name
+set :app_name,      "exampleapp"                            #=> shortname for app
+set :server_ip,     "0.0.0.0"                               #=> IP of the Server
+set :deploy_to,     "/home/deploy/apps/#{application}"      #=> deploy path
+
+
+
+# rvm variables:
+# => set :rails_env,            'production'                #=> Rails environment
+# => set :rvm_ruby,             '1.9.3'                     #=> Ruby version
+# => set :rvm_patch,            'p0'                        #=> Patch level
+# => set :rvm_gemset,           'global'                    #=> Gemset
+# => set :rvm_path,             '/usr/local/rvm'            #=> RVM-Path
+
+
+
+# nginx variables:
+# => set :rails_server,         'thin'                      #=> Rails-Server ( thin | passenger | unicorn )
+# => set :app_instances,        3                           #=> Server instances
+# => set :rails_env,            'production'                #=> Rails environment
+# => set :http_enabled_path,    '/opt/nginx/http-enabled'   #=> HTTP-folder (sites-enabled)
+# => set :tcp_enabled_path,     '/opt/nginx/tcp-enabled'    #=> TCP-folder (needs nginx_tcp_proxy_module)
+
+
+
+# thin variables:
+# => set :thin_path,            '/etc/thin'                 #=> Thin config path
+
+
+
+# private_pub variables:
+# => set :private_pub_domain,       "0.0.0.0"               #=> private_pub domain
+# => set :private_pub_host,         9200                    #=> public port
+# => set :private_pub_port,         9292                    #=> intern port
+# => set :private_pub_key,          "882293e492b7e7a2fed266a5f38062420e12fb75eae5f145e256af60dc9681bc"
+
+
+
+# assets variables:
+# => set :normalize_asset_timestamps,   true                #=> ?
+# => set :make_pulbic_folder_public,    true                #=> chmod 777 on 'public' and 'tmp' folder
+
+
+
+# GitHub
+# => set :scm,               :git
+# => set :repository,        "git@github.com:gitname/repo.git"  #=> for private-repos: "https://github.com/gitname/repo.git"
+# => set :deploy_via,        :copy                              #=> :copy | :remote_cache | ..
+# => set :branch,            :master                            #=> Git branch
+# => # set :local_repository,  "/path/to/repo.git"              #=> for local-path
+# => # set :git_enable_submodules, 1                            #=> Git submodules
+
+
+
+# if you want to clean up old releases on each deploy uncomment this:
+# => set     :keep_releases,     3
+# => after   "deploy:restart",   "deploy:cleanup" 
+

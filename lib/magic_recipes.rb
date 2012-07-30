@@ -13,9 +13,14 @@ module MagicRecipes
       # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
       # Magic-Helper:
       # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
-    
+      
+      require 'bundler/capistrano'
+      
+      default_run_options[:pty] = true
+      ssh_options[:forward_agent] = true
+      
       def template(from, to)
-        erb = File.read(File.expand_path("../templates/#{from}", __FILE__))
+        erb = File.read(File.expand_path("../magic_recipes/templates/#{from}", __FILE__))
         put ERB.new(erb).result(binding), to
       end
 
@@ -49,7 +54,7 @@ module MagicRecipes
         begin
           require "magic_recipes/#{recipe_name.to_s}"
 
-          recipe = MagicRecipes.const_get( recipe_name.to_s.classify )
+          recipe = ::MagicRecipes.const_get( recipe_name.to_s.capitalize.gsub(/_(\w)/) { $1.upcase } )
           recipe.load_into(self)
           @magical_recipes << recipe_name.to_sym
         rescue LoadError

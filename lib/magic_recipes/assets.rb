@@ -1,5 +1,5 @@
 # encoding: utf-8
-module CapistranoMagic
+module MagicRecipes
   module Assets
     def self.load_into(configuration)
       configuration.load do
@@ -9,6 +9,7 @@ module CapistranoMagic
         set_default :assets_role, [:web]
 
         set_default :normalize_asset_timestamps, false
+        set_default :make_pulbic_folder_public, false
 
         before 'deploy:finalize_update', 'deploy:assets:symlink'
         after 'deploy:update_code', 'deploy:assets:precompile'
@@ -43,15 +44,30 @@ module CapistranoMagic
                 set :asset_env, "RAILS_GROUPS=assets"
             DESC
             task :precompile, :roles => assets_role, :except => { :no_release => true } do
-              # run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
-              run <<-CMD
-                source '/usr/local/rvm/scripts/rvm' &&
-                rvm use 1.9.3 &&
-                cd #{latest_release} &&
-                #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile && 
-                #{sudo} chmod -R 777 public/ &&
-                #{sudo} chmod -R 777 tmp/
-              CMD
+              run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
+              if make_pulbic_folder_public
+                chmod
+              end
+              # run <<-CMD
+              #   source '/usr/local/rvm/scripts/rvm' &&
+              #   rvm use 1.9.3 &&
+              #   cd #{latest_release} &&
+              #   #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile && 
+              #   #{sudo} chmod -R 777 public/ &&
+              #   #{sudo} chmod -R 777 tmp/
+              # CMD
+            end
+            
+            desc "make the public folder public for all (777)"
+            task :chmod, :roles => assets_role, :except => { :no_release => true } do
+              run "cd #{latest_release} && #{sudo} chmod -R 777 public/ && #{sudo} chmod -R 777 tmp/"
+              # run <<-CMD
+              #   source '/usr/local/rvm/scripts/rvm' &&
+              #   rvm use 1.9.3 &&
+              #   cd #{latest_release} &&
+              #   #{sudo} chmod -R 777 public/ &&
+              #   #{sudo} chmod -R 777 tmp/
+              # CMD
             end
 
             desc <<-DESC

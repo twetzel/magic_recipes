@@ -1,5 +1,5 @@
 # encoding: utf-8
-module CapistranoMagic
+module MagicRecipes
   module PrivatePub
     def self.load_into(configuration)
       configuration.load do
@@ -13,6 +13,22 @@ module CapistranoMagic
 
         namespace :private_pub do
           
+          # needs nginx_tcp_proxy_module ... https://github.com/yaoweibin/nginx_tcp_proxy_module
+          desc "reconf private_pub .. "
+          task :reconf do
+            template "thin_private_pub_yml.erb", "#{current_path}/config/thin_pp.yml"
+            run "#{sudo} ln -sf #{current_path}/config/thin_pp.yml #{thin_path}/thin_#{app_name}_pp.yml"
+          end
+          after "thin:reconf", "private_pub:reconf"
+          
+          desc "setup private_pub .. "
+          task :setup do
+            reconf
+            template "nginx_private_pub.erb", "/tmp/nginx_tcp_conf"
+            run "#{sudo} mv /tmp/nginx_tcp_conf #{tcp_enabled_path}/#{app_name}_private_pub.conf"
+          end
+          after "nginx:setup", "private_pub:setup"
+          
           desc "write config/private_pup.yml"
           task :yml_file do
             template "private_pub_yml.erb", "#{current_path}/config/private_pub.yml"
@@ -20,12 +36,13 @@ module CapistranoMagic
           
           desc "start private_pub server"
           task :start, roles: :app do
-            run <<-CMD
-                source '/usr/local/rvm/scripts/rvm' && 
-                rvm use 1.9.3 && 
-                cd #{current_path} && 
-                RAILS_ENV=production bundle exec rackup private_pub.ru -s thin -E production -p #{private_pub_port} -o #{server_ip} -D
-              CMD
+            # => run <<-CMD
+            # =>     source '/usr/local/rvm/scripts/rvm' && 
+            # =>     rvm use 1.9.3 && 
+            # =>     cd #{current_path} && 
+            # =>     RAILS_ENV=production bundle exec rackup private_pub.ru -s thin -E production -p #{private_pub_port} -o #{server_ip} -D
+            # =>   CMD
+            run "cd #{current_path} && RAILS_ENV=production bundle exec rackup private_pub.ru -s thin -E production -p #{private_pub_port} -o #{server_ip} -D"
           end
           before "thin:start", "private_pub:start"
           

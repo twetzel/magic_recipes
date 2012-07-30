@@ -8,4 +8,19 @@ Code is inspired by:
 
 - [Sergey Nartimov](https://github.com/lest/capistrano-deploy) = the load mechanism
 
+## Usage
+
+- add magic_recipes to your Gemfile
+
+    gem 'magic_recipes', :require => nil
+
+- run bundle install
+- run the generator
+
+    rails g magic_recipes:capify
+
+- edit 'config/deploy'
+- enjoy some magic
+
+
 This project rocks and uses MIT-LICENSE.

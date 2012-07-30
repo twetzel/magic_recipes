@@ -1,21 +1,18 @@
 # encoding: utf-8
-module CapistranoMagic
+module MagicRecipes
   module Thin
     def self.load_into(configuration)
       configuration.load do
         
+        set_default :thin_path,        '/etc/thin'
+        
         namespace :thin do
           
-          desc "rewrite thin-configuration"
+          desc "rewrite thin-configurations"
           task :reconf, roles: :app do
             template "thin_app_yml.erb", "#{current_path}/config/thin_app.yml"
-            run "#{sudo} rm /etc/thin/thin_#{app_name}*"
-            run "#{sudo} ln -sf #{current_path}/config/thin_app.yml /etc/thin/thin_#{app_name}.yml"
-            # needs nginx_tcp_proxy_module ... https://github.com/yaoweibin/nginx_tcp_proxy_module
-            if private_pub_active
-              template "thin_private_pub_yml.erb", "#{current_path}/config/thin_pp.yml"
-              run "#{sudo} ln -sf #{current_path}/config/thin_pp.yml /etc/thin/thin_#{app_name}_pp.yml"
-            end
+            run "#{sudo} rm #{thin_path}/thin_#{app_name}*"
+            run "#{sudo} ln -sf #{current_path}/config/thin_app.yml #{thin_path}/thin_#{app_name}.yml"
           end
           
           # Start / Stop / Restart Thin
@@ -23,14 +20,18 @@ module CapistranoMagic
             desc "#{command} thin"
             task command, roles: :app do
               reconf
-              run <<-CMD
-                source '/usr/local/rvm/scripts/rvm' && 
-                rvm use 1.9.3 && cd #{current_path} && 
-                bundle exec thin #{command} -C config/thin_app.yml
-              CMD
+              # => run <<-CMD
+              # =>   source '/usr/local/rvm/scripts/rvm' && 
+              # =>   rvm use 1.9.3 && cd #{current_path} && 
+              # =>   bundle exec thin #{command} -C config/thin_app.yml
+              # => CMD
+              run "bundle exec thin #{command} -C config/thin_app.yml"
             end
-            before "nginx:#{command}", "thin:#{command}"
+            # before "nginx:#{command}", "thin:#{command}"
           end
+          
+          before "nginx:start", "thin:start"
+          before "nginx:stop", "thin:stop"
           
         end
         

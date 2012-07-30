@@ -1,5 +1,5 @@
 # encoding: utf-8
-module CapistranoMagic
+module MagicRecipes
   module Nodejs
     def self.load_into(configuration)
       configuration.load do
