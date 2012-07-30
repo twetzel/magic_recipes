@@ -19,7 +19,6 @@ module MagicRecipes
       default_run_options[:pty] = true
       ssh_options[:forward_agent] = true
       
-      set_default :use_rvm,   false           # => no_rvm
       
       def template(from, to)
         erb = File.read(File.expand_path("../magic_recipes/templates/#{from}", __FILE__))
@@ -37,7 +36,10 @@ module MagicRecipes
         length.times { password << chars[rand(chars.size)] }
         password
       end
-
+      
+      
+      set_default :use_rvm,   false           # => no_rvm
+      
       namespace :deploy do
         desc "Install everything onto the server"
         task :install do
