@@ -1,16 +1,8 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #   Magic - Recipes 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-#   Usage:
-#   magic_recipes :rvm, :nginx, :private_pub, :thin
-#   available:
-#   :rvm, :rbenv, :nginx, :private_pub, :thin, :passenger, :unicorn, :assets, :gems
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-magic_recipes :rvm, :nginx, :private_pub, :thin
-
-
-server      "0.0.0.0",      :web,   :app,   :db,    :primary => true
+server              "0.0.0.0",      :web,   :app,   :db,    :primary => true
 
 set :user,          "deploy"                                #=> ssh-user
 set :password,      "password"                              #=> sudo-pwd
@@ -65,4 +57,15 @@ set :rails_env,     "production"                            #=> Rails environmen
 # if you want to clean up old releases on each deploy uncomment this:
 # => set     :keep_releases,     3
 # => after   "deploy:restart",   "deploy:cleanup" 
+
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#   Usage:
+#   magic_recipes :rvm, :nginx, :private_pub, :thin
+#   available:
+#   :rvm, :rbenv, :nginx, :private_pub, :thin, :passenger, :unicorn, :assets, :gems
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+magic_recipes :rvm, :nginx, :private_pub, :thin
+
 

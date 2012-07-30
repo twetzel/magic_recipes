@@ -10,18 +10,19 @@ Code is inspired by:
 
 
 ## Usage
-
-- add magic_recipes to your Gemfile
+add magic_recipes to your Gemfile
 
     gem 'magic_recipes', :require => nil
 
-- run bundle install
-- run the generator
+run bundle install
+
+run the generator
 
     rails g magic_recipes:capify
 
-- edit 'config/deploy'
-- enjoy some magic
+edit 'config/deploy'
+
+enjoy some magic
 
 
 ## ToDo´s
