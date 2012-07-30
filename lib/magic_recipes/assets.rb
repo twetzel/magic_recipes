@@ -44,30 +44,25 @@ module MagicRecipes
                 set :asset_env, "RAILS_GROUPS=assets"
             DESC
             task :precompile, :roles => assets_role, :except => { :no_release => true } do
-              run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
+              # run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
               if make_pulbic_folder_public
                 chmod
               end
-              # run <<-CMD
-              #   source '/usr/local/rvm/scripts/rvm' &&
-              #   rvm use 1.9.3 &&
-              #   cd #{latest_release} &&
-              #   #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile && 
-              #   #{sudo} chmod -R 777 public/ &&
-              #   #{sudo} chmod -R 777 tmp/
-              # CMD
+              if use_rvm
+                run <<-CMD
+                  source '#{rvm_path}/scripts/rvm' && 
+                  rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} && 
+                  cd #{latest_release} && 
+                  #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile
+                CMD
+              else
+                run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
+              end
             end
             
             desc "make the public folder public for all (777)"
             task :chmod, :roles => assets_role, :except => { :no_release => true } do
               run "cd #{latest_release} && #{sudo} chmod -R 777 public/ && #{sudo} chmod -R 777 tmp/"
-              # run <<-CMD
-              #   source '/usr/local/rvm/scripts/rvm' &&
-              #   rvm use 1.9.3 &&
-              #   cd #{latest_release} &&
-              #   #{sudo} chmod -R 777 public/ &&
-              #   #{sudo} chmod -R 777 tmp/
-              # CMD
             end
 
             desc <<-DESC

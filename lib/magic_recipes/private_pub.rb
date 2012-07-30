@@ -36,13 +36,22 @@ module MagicRecipes
           
           desc "start private_pub server"
           task :start, roles: :app do
+            if use_rvm
+              run <<-CMD
+                source '#{rvm_path}/scripts/rvm' && 
+                rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} && 
+                cd #{current_path} && 
+                RAILS_ENV=production bundle exec rackup private_pub.ru -s thin -E production -p #{private_pub_port} -o #{server_ip} -D
+              CMD
+            else
+              run "cd #{current_path} && RAILS_ENV=production bundle exec rackup private_pub.ru -s thin -E production -p #{private_pub_port} -o #{server_ip} -D"
+            end
             # => run <<-CMD
             # =>     source '/usr/local/rvm/scripts/rvm' && 
             # =>     rvm use 1.9.3 && 
             # =>     cd #{current_path} && 
             # =>     RAILS_ENV=production bundle exec rackup private_pub.ru -s thin -E production -p #{private_pub_port} -o #{server_ip} -D
             # =>   CMD
-            run "cd #{current_path} && RAILS_ENV=production bundle exec rackup private_pub.ru -s thin -E production -p #{private_pub_port} -o #{server_ip} -D"
           end
           
           

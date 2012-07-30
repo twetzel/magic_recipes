@@ -20,12 +20,16 @@ module MagicRecipes
             desc "#{command} thin"
             task command, roles: :app do
               reconf
-              # => run <<-CMD
-              # =>   source '/usr/local/rvm/scripts/rvm' && 
-              # =>   rvm use 1.9.3 && cd #{current_path} && 
-              # =>   bundle exec thin #{command} -C config/thin_app.yml
-              # => CMD
-              run "bundle exec thin #{command} -C config/thin_app.yml"
+              if use_rvm
+                run <<-CMD
+                  source '#{rvm_path}/scripts/rvm' && 
+                  rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} && 
+                  cd #{current_path} && 
+                  bundle exec thin #{command} -C config/thin_app.yml
+                CMD
+              else
+                run "bundle exec thin #{command} -C config/thin_app.yml"
+              end
             end
             # before "nginx:#{command}", "thin:#{command}"
           end

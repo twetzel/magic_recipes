@@ -19,6 +19,8 @@ module MagicRecipes
       default_run_options[:pty] = true
       ssh_options[:forward_agent] = true
       
+      set_default :use_rvm,   false           # => no_rvm
+      
       def template(from, to)
         erb = File.read(File.expand_path("../magic_recipes/templates/#{from}", __FILE__))
         put ERB.new(erb).result(binding), to
