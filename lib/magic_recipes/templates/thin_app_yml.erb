@@ -1,0 +1,18 @@
+---
+adapter: rails
+chdir: <%= current_path %>
+environment: <%= rails_env %>
+rackup: <%= current_path %>/config.ru
+timeout: 30
+# address: 127.0.0.1
+# port: 4000
+log: <%= deploy_to %>/shared/log/thin_<%= app_name %>.log
+pid: <%= deploy_to %>/shared/pids/thin_<%= app_name %>.pid
+max_conns: 1024
+max_persistent_conns: 512
+require: []
+wait: 90
+servers: <%= app_instances %>
+user: <%= user %>
+socket: /tmp/thin.<%= app_name %>.sock
+daemonize: true

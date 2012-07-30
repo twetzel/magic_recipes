@@ -1,0 +1,13 @@
+upstream <%= app_name %>_websockets {
+	# <%# private_pub_instances.to_i.times do |i| %>server unix:/tmp/thin.<%= app_name %>.pp.<%#= i %>.sock;<%# end %>
+	server <%= server_ip %>:<%= private_pub_port %>; 
+	check interval=300 rise=2 fall=5 timeout=1000;
+}   
+
+server {
+	listen <%= private_pub_host %>;
+	server_name <%= private_pub_domain %>;
+	tcp_nodelay on;
+	proxy_pass <%= app_name %>_websockets;
+}
+

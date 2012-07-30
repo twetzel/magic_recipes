@@ -1,0 +1,19 @@
+---
+adapter: rack
+chdir: <%= current_path %>
+environment: <%= rails_env %>
+rackup: <%= current_path %>/private_pub.ru
+timeout: 30
+# address: 127.0.0.1
+# port: 9292
+log: <%= deploy_to %>/shared/log/thin_<%= app_name %>_pp.log
+pid: <%= deploy_to %>/shared/pids/thin_<%= app_name %>_pp.pid
+max_conns: 1024
+max_persistent_conns: 512
+require: []
+wait: 90
+servers: <%= private_pub_instances %>
+user: <%= user %>
+socket: /tmp/thin.<%= app_name %>.pp.sock
+daemonize: true
+

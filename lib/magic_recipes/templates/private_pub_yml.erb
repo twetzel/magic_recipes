@@ -1,0 +1,10 @@
+development:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+test:
+  server: "http://localhost:9292/faye"
+  secret_token: "secret"
+production:
+  server: "http://<%= private_pub_domain %>:<%= private_pub_host %>/faye"
+  secret_token: "<%#= random_string( 64 ) %><%= private_pub_key %>"
+  signature_expiration: 7200 # one hour
