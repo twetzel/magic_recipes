@@ -4,6 +4,8 @@ module MagicRecipes
     def self.load_into(configuration)
       configuration.load do
         
+        set_default :pre_start, false         # => pre_start the first domain ?
+        
         namespace :passenger do
           
           # Restart Passenger

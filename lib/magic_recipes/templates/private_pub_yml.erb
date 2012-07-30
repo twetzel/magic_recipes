@@ -7,4 +7,4 @@ test:
 production:
   server: "http://<%= private_pub_domain %>:<%= private_pub_host %>/faye"
   secret_token: "<%#= random_string( 64 ) %><%= private_pub_key %>"
-  signature_expiration: 7200 # one hour
+  signature_expiration: 7200 # two hours

@@ -7,6 +7,7 @@ module MagicRecipes
         set_default :rails_server,        'thin'
         set_default :http_enabled_path,   '/opt/nginx/http-enabled'
         set_default :tcp_enabled_path,    '/opt/nginx/tcp-enabled'
+        set_default :default_site,        false
         
         
         namespace :nginx do

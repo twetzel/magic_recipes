@@ -5,7 +5,7 @@ upstream thin_<%= app_name %>_cluster {
 }
 
 server {
-	listen 80;
+	listen 80<%= ' default deferred' if default_site %>;
 	server_name <%= domains.join("\n                ") %>;
                 
 	root   <%= current_path %>/public;

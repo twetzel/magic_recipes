@@ -3,7 +3,7 @@ upstream unicorn {
 }
 
 server {
-  listen 80 default deferred;
+  listen 80<%= ' default deferred' if default_site %>;
 
   server_name <%= domains.join("\n                ") %>;
 

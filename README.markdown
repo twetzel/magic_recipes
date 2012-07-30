@@ -8,6 +8,7 @@ Code is inspired by:
 
 - [Sergey Nartimov](https://github.com/lest/capistrano-deploy) = the load mechanism
 
+
 ## Usage
 
 - add magic_recipes to your Gemfile
@@ -23,4 +24,23 @@ Code is inspired by:
 - enjoy some magic
 
 
+## ToDo´s
+
+- add tests (rspec+cucumber)
+- make expect-cap-task (bin/*_cap)
+
+- improve: passenger, unicorn rbenv, postgesql, nodejs, gems, db, git, rvm
+- add: puma, varnish, search-stuff, vps-stuff
+
+
+## Ready
+
+and in use .. but not tested
+
+- nginx
+- thin
+- assets
+- private_pub ... needs [nginx_tcp_proxy_module](https://github.com/yaoweibin/nginx_tcp_proxy_module) for nginx
+
+### Licence
 This project rocks and uses MIT-LICENSE.
