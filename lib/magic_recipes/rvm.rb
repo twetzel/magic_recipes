@@ -20,7 +20,9 @@ module MagicRecipes
         set :rvm_lib_path,          "#{rvm_path}/lib"
         set :remote_bin_path,       "#{rvm_path}/gems/ruby-#{rvm_ruby}-#{rvm_patch}/bin/"
         set :use_rvm,               true
-
+        
+        set :rvm_cmd,               "source '#{rvm_path}/scripts/rvm' && rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset}"
+        
         # => set :default_environment, {
         # =>   'PATH'            => "#{rvm_path}/gems/ruby/1.9.1/bin:#{rvm_bin_path}/bin:#{remote_bin_path}:$PATH",
         # =>   'RUBY_VERSION'    => "#{rvm_ruby}",

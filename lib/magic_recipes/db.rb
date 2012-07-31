@@ -10,8 +10,7 @@ module MagicRecipes
           task :seed do
             if use_rvm
               run <<-CMD
-                source '#{rvm_path}/scripts/rvm' && 
-                rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} && 
+                #{rvm_cmd} && 
                 cd #{latest_release} && 
                 #{rake} db:seed RAILS_ENV=#{rails_env}
               CMD
@@ -24,8 +23,7 @@ module MagicRecipes
           task :migrate do
             if use_rvm
               run <<-CMD
-                source '#{rvm_path}/scripts/rvm' && 
-                rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} && 
+                #{rvm_cmd} && 
                 cd #{latest_release} && 
                 #{rake} db:migrate RAILS_ENV=#{rails_env}
               CMD

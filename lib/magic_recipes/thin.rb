@@ -22,8 +22,7 @@ module MagicRecipes
               reconf
               if use_rvm
                 run <<-CMD
-                  source '#{rvm_path}/scripts/rvm' && 
-                  rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} && 
+                  #{rvm_cmd} && 
                   cd #{current_path} && 
                   bundle exec thin #{command} -C config/thin_app.yml
                 CMD

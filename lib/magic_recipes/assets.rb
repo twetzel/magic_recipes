@@ -50,11 +50,10 @@ module MagicRecipes
               end
               if use_rvm
                 run <<-CMD
-                  source '#{rvm_path}/scripts/rvm' && 
-                  rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} && 
-                  cd #{latest_release} && 
-                  #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile
-                CMD
+                    #{rvm_cmd} && 
+                    cd #{latest_release} && 
+                    #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile
+                  CMD
               else
                 run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
               end

@@ -38,8 +38,7 @@ module MagicRecipes
           task :start, roles: :app do
             if use_rvm
               run <<-CMD
-                source '#{rvm_path}/scripts/rvm' && 
-                rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} && 
+                #{rvm_cmd} && 
                 cd #{current_path} && 
                 RAILS_ENV=production bundle exec rackup private_pub.ru -s thin -E production -p #{private_pub_port} -o #{server_ip} -D
               CMD
