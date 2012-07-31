@@ -32,6 +32,19 @@ module MagicRecipes
             end
           end
           
+          desc "delete all tables of the database"
+          task :delete_tables do
+            if use_rvm
+              run <<-CMD
+                #{rvm_cmd} && 
+                cd #{latest_release} && 
+                ActiveRecord::Base.connection.tables.each { |t| ActiveRecord::Base.connection.drop_table t }
+              CMD
+            else
+              run "cd #{latest_release} && ActiveRecord::Base.connection.tables.each { |t| ActiveRecord::Base.connection.drop_table t }"
+            end
+          end
+          
         end
         
         # eof
