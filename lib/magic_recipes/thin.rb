@@ -11,7 +11,7 @@ module MagicRecipes
           desc "rewrite thin-configurations"
           task :reconf, roles: :app do
             template "thin_app_yml.erb", "#{current_path}/config/thin_app.yml"
-            run "#{sudo} rm #{thin_path}/thin_#{app_name}*"
+            run "#{sudo} rm -f #{thin_path}/thin_#{app_name}*"
             run "#{sudo} ln -sf #{current_path}/config/thin_app.yml #{thin_path}/thin_#{app_name}.yml"
           end
           
