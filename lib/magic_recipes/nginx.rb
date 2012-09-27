@@ -24,7 +24,7 @@ module MagicRecipes
           desc "Setup nginx configuration for this application"
           task :setup, roles: :web do
             template "nginx_#{rails_server}.erb", "/tmp/nginx_http_conf"
-            run "#{sudo} rm #{http_enabled_path}/#{app_name}_*"
+            run "#{sudo} rm -f #{http_enabled_path}/#{app_name}_*"
             run "#{sudo} mv /tmp/nginx_http_conf #{http_enabled_path}/#{app_name}_#{rails_server}.conf"
           end
           after "deploy:setup", "nginx:setup"

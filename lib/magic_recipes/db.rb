@@ -32,17 +32,24 @@ module MagicRecipes
             end
           end
           
-          desc "delete all tables of the database"
+          desc "delete all Tables of the Database!"
           task :delete_tables do
             if use_rvm
               run <<-CMD
                 #{rvm_cmd} && 
                 cd #{latest_release} && 
-                ActiveRecord::Base.connection.tables.each { |t| ActiveRecord::Base.connection.drop_table t }
+                RAILS_ENV=#{rails_env} rails runner "ActiveRecord::Base.connection.tables.each { |t| ActiveRecord::Base.connection.drop_table t }"
               CMD
             else
-              run "cd #{latest_release} && ActiveRecord::Base.connection.tables.each { |t| ActiveRecord::Base.connection.drop_table t }"
+              run "cd #{latest_release} && RAILS_ENV=#{rails_env} rails runner 'ActiveRecord::Base.connection.tables.each { |t| ActiveRecord::Base.connection.drop_table t }'"
             end
+            # => ActiveRecord::Base.connection.tables.each { |t| ActiveRecord::Base.connection.drop_table t }
+          end
+          
+          desc "DB-Reset for user without dbcreate permission (deletes all tables than migrates again)"
+          task :save_reset do
+            delete_tables
+            migrate
           end
           
         end
