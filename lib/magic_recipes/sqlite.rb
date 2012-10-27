@@ -8,6 +8,11 @@ module MagicRecipes
         set_default :sqlite_db,           "#{ rails_env.downcase.strip }"
 
         namespace :sqlite do
+          
+          desc "setup shared sqlite-folder"
+          task :setup_db do
+            run "mkdir #{ sqlite_path }"
+          end
 
           desc "save current db"
           task :save_db do
@@ -36,6 +41,8 @@ module MagicRecipes
           end
 
         end
+
+        after "deploy:setup", "sqlite:setup_db"
 
         # eof
       end
