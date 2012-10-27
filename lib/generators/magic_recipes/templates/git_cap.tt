@@ -1,0 +1,35 @@
+#!/usr/bin/expect -f
+# Expect script to supply username/password to cap deploy to git private repository
+# This script needs username and password as arguments to connect to git server:
+# ------------------------------------------------------------------------
+# ./git_cap gitusr gitpwd
+# -------------------------------------------------------------------------
+# set Variables
+set g_user [lrange $argv 0 0] 
+set g_pwd [lrange $argv 1 1]   
+set timeout -1   
+
+spawn cap deploy
+match_max 100000
+
+# Look for user prompt
+expect "*?sername:*"
+send -- "$g_user\r"
+send -- "\r"
+
+# Look for passwod prompt
+expect "*?assword:*"
+send -- "$g_pwd\r"
+send -- "\r"
+
+# Look for user prompt
+expect "*?sername:*"
+send -- "$g_user\r"
+send -- "\r"
+
+# Look for passwod prompt
+expect "*?assword:*"
+send -- "$g_pwd\r"
+send -- "\r"
+
+expect eof

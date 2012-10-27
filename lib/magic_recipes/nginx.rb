@@ -1,5 +1,19 @@
 # encoding: utf-8
 module MagicRecipes
+  # Nginx - Deploy-Recipes
+  # 
+  # Tasks:
+  # :install    # => Install latest stable release of nginx
+  # :setup      # => Setup nginx configuration for this application
+  # :start      # => start nginx-server
+  # :stop       # => stop nginx-server
+  # :restart    # => setup, stop, start nginx-server
+  # 
+  # Callbacks:
+  # after "deploy:install", "nginx:install"
+  # after "deploy:setup", "nginx:setup"
+  # after "deploy", "nginx:restart"
+  # 
   module Nginx
     def self.load_into(configuration)
       configuration.load do
