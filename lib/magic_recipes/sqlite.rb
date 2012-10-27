@@ -3,10 +3,10 @@ module MagicRecipes
   module Sqlite
     def self.load_into(configuration)
       configuration.load do
-        
+
         set_default :sqlite_path,         "#{ deploy_to }/shared/db/"
         set_default :sqlite_db,           "#{ rails_env.downcase.strip }"
-        
+
         namespace :sqlite do
 
           desc "save current db"
@@ -36,12 +36,8 @@ module MagicRecipes
           end
 
         end
-        
-        before  "deploy", "sqlite:save_db"
-        after   "deploy", "sqlite:copy_db"
-        
+
         # eof
-        
       end
     end
   end

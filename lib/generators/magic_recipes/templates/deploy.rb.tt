@@ -74,3 +74,7 @@ set :rails_env,     "production"                            #=> Rails environmen
 magic_recipes :rvm, :nginx, :private_pub, :thin
 
 
+# SqLite3-callbacks ... this is more for test & try pupose (save .sqlite and copy to current after deploy)
+# => before  "deploy", "sqlite:save_db"
+# => after   "deploy", "sqlite:copy_db"
+
