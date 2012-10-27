@@ -55,8 +55,8 @@ set :rails_env,     "production"                            #=> Rails environmen
 
 
 # SqLite3 ... this is more for test & try pupose (save .sqlite and copy to current after deploy)
-set :sqlite_path,     "#{ deploy_to }/shared/db/"               #=> shared path for db
-set :sqlite_db,       "#{ rails_env.downcase.strip }"           #=> sqlite name
+# => set :sqlite_path,     "#{ deploy_to }/shared/db/"          #=> shared path for db
+# => set :sqlite_db,       "#{ rails_env }"                     #=> sqlite name
 
 
 # if you want to clean up old releases on each deploy uncomment this:
