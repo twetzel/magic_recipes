@@ -7,7 +7,7 @@ module MagicRecipes
   # [Tasks:]
   #   :install                      # => Install the latest stable release of PostgreSQL.
   # 
-  #   :create_database              # => Create postgres database and user for this application.
+  #   :create_database              # => Create database and user for this application.
   # 
   #   :setup                        # => Generate the database.yml configuration file.
   # 
@@ -20,6 +20,8 @@ module MagicRecipes
   #   :create_user                  # => Create a postgres-user for this application.
   # 
   #   :drop_user                    # => Drop the postgres-user for this application.
+  # 
+  #   :create_db                    # => Create only a database for this application.
   # 
   #   :drop_database                # => Drop the postgres-database for this application.
   # 
@@ -50,12 +52,13 @@ module MagicRecipes
             run "#{sudo} add-apt-repository ppa:pitti/postgresql"
             run "#{sudo} apt-get -y update"
             run "#{sudo} apt-get -y install postgresql libpq-dev"
+            # add constrib for hstore extension
+            run "#{sudo} apt-get -y install postgresql-contrib-9.1"
           end
           after "deploy:install", "postgresql:install"
           
           desc "Create a database and user for this application."
           task :create_database, roles: :db, only: {primary: true} do
-            #run %Q{#{sudo} -u postgres psql -c "create user #{postgresql_user} with password '#{postgresql_password}';"}
             # make a superuser .. to be able to install extensions like hstore
             run %Q{#{sudo} -u postgres psql -c "CREATE ROLE #{postgresql_user} WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD '#{postgresql_password}';"}
             #run %Q{#{sudo} -u postgres psql -c "create database #{postgresql_database} owner #{postgresql_user};"}
@@ -73,6 +76,11 @@ module MagicRecipes
           task :drop_user, roles: :db, only: {primary: true} do
             # make a superuser .. to be able to install extensions like hstore
             run %Q{#{sudo} -u postgres psql -c "DROP ROLE #{postgresql_user};"}
+          end
+          
+          desc "Create only a database for this application."
+          task :create_db, roles: :db, only: {primary: true} do
+            run %Q{#{sudo} -u postgres psql -c "CREATE DATABASE #{postgresql_database} WITH OWNER #{postgresql_user};"}
           end
           
           desc "Drop the postgres-database for this application."
@@ -97,7 +105,6 @@ module MagicRecipes
           # http://stackoverflow.com/a/12939218/1470996
           desc 'kill pgsql users so database can be dropped'
           task :kill_postgres_connections do
-            # run "echo 'SELECT pg_terminate_backend(procpid) FROM pg_stat_activity WHERE datname=\'#{postgresql_database}\';' | psql -U postgres"
             run %Q{#{sudo} -u postgres psql -c "SELECT pg_terminate_backend(procpid) FROM pg_stat_activity WHERE datname='#{postgresql_database}';"}
           end
           
