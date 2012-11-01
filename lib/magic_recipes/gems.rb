@@ -1,5 +1,9 @@
 # encoding: utf-8
 module MagicRecipes
+  # = Gems - Deploy-Recipes
+  # 
+  # == Useless .. take the capistrano task
+  # 
   module Gems
     def self.load_into(configuration)
       configuration.load do

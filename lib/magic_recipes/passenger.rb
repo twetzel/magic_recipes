@@ -1,15 +1,17 @@
 # encoding: utf-8
 module MagicRecipes
+  # = Passenger - Deploy
+  # 
+  # Simple recipe to restart passenger
+  # 
+  # [Tasks:]
+  #   task :restart   # => Restart Phusion-Passenger
+  # 
+  # [Callbacks:]
+  #   after "deploy:restart", "passenger:restart"
+  # 
   module Passenger
     
-    # Passenger - Deploy
-    # 
-    # Tasks:
-    # task :restart   # => Restart Phusion-Passenger
-    # 
-    # Callbacks:
-    # after "deploy:restart", "passenger:restart"
-    # 
     def self.load_into(configuration)
       configuration.load do
         

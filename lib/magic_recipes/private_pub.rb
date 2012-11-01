@@ -1,5 +1,33 @@
 # encoding: utf-8
 module MagicRecipes
+  # = PrivatePub - Deploy-Recipes
+  # 
+  # Easy deployment of private_pub .. which can be frustrating on nginx because of the tcp server
+  # 
+  # [Tasks:]
+  #   :reconf       # => Generate the thin yml configuration file.
+  # 
+  #   :setup        # => Generate the nginx configuration file.
+  # 
+  #   :yml_file     # => Generate the private_pup yml configuration file.
+  # 
+  #   :start        # => Start the private_pup server
+  # 
+  #   :stop         # => Start the private_pup server
+  # 
+  #   :restart      # => Restart the private_pup server
+  # 
+  # [Callbacks:]
+  #   before "thin:start", "private_pub:yml_file"
+  # 
+  #   after "thin:start", "private_pub:start"
+  # 
+  #   after "thin:stop", "private_pub:stop"
+  # 
+  #   after "nginx:setup", "private_pub:setup"
+  # 
+  #   after "thin:reconf", "private_pub:reconf"
+  # 
   module PrivatePub
     def self.load_into(configuration)
       configuration.load do

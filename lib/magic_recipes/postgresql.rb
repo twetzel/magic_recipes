@@ -1,6 +1,32 @@
 # encoding: utf-8
 module MagicRecipes
-  module Assets
+  # = Postgresql - Deploy-Recipes
+  # 
+  # Some simple recipes for PostgreSQL
+  # 
+  # [Tasks:]
+  #   :install                      # => Install the latest stable release of PostgreSQL.
+  # 
+  #   :create_database              # => Create a database for this application.
+  # 
+  #   :setup                        # => Generate the database.yml configuration file.
+  # 
+  #   :symlink                      # => Symlink the database.yml file into latest release
+  # 
+  #   :kill_postgres_connections    # => kill pgsql users so database can be dropped
+  # 
+  #   :drop_public_shema            # => drop public shema so db is empty and not dropped
+  # 
+  # [Callbacks:]
+  #   after "deploy:install", "postgresql:install"
+  # 
+  #   after "deploy:setup", "postgresql:create_database"
+  # 
+  #   after "deploy:setup", "postgresql:setup"
+  # 
+  #   after "deploy:finalize_update", "postgresql:symlink"
+  # 
+  module Postgresql
     def self.load_into(configuration)
       configuration.load do
         
@@ -9,7 +35,8 @@ module MagicRecipes
         set_default(:postgresql_host, "localhost")
         set_default(:postgresql_user) { application }
         set_default(:postgresql_password) { Capistrano::CLI.password_prompt "PostgreSQL Password: " }
-        set_default(:postgresql_database) { "#{application}_production" }
+        set_default(:postgresql_database) { "#{application}_#{rails_env}" }
+        set_default(:postgresql_pool, 5)
         
         namespace :postgresql do
           desc "Install the latest stable release of PostgreSQL."
@@ -22,7 +49,8 @@ module MagicRecipes
           
           desc "Create a database for this application."
           task :create_database, roles: :db, only: {primary: true} do
-            run %Q{#{sudo} -u postgres psql -c "create user #{postgresql_user} with password '#{postgresql_password}';"}
+            # with --createdb for rake commands
+            run %Q{#{sudo} -u postgres psql -c "create user --createdb #{postgresql_user} with password '#{postgresql_password}';"}
             run %Q{#{sudo} -u postgres psql -c "create database #{postgresql_database} owner #{postgresql_user};"}
           end
           after "deploy:setup", "postgresql:create_database"
@@ -30,15 +58,30 @@ module MagicRecipes
           desc "Generate the database.yml configuration file."
           task :setup, roles: :app do
             run "mkdir -p #{shared_path}/config"
-            template "postgresql.yml.erb", "#{shared_path}/config/database.yml"
+            template "postgresql.yml.erb", "#{shared_path}/config/postgres_#{rails_env}.yml"
           end
           after "deploy:setup", "postgresql:setup"
           
           desc "Symlink the database.yml file into latest release"
           task :symlink, roles: :app do
-            run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+            run "ln -nfs #{shared_path}/config/postgres_#{rails_env}.yml #{release_path}/config/database.yml"
           end
           after "deploy:finalize_update", "postgresql:symlink"
+          
+          # http://stackoverflow.com/a/12939218/1470996
+          desc 'kill pgsql users so database can be dropped'
+          task :kill_postgres_connections do
+            # run "echo 'SELECT pg_terminate_backend(procpid) FROM pg_stat_activity WHERE datname=\'#{postgresql_database}\';' | psql -U postgres"
+            run %Q{#{sudo} -u postgres psql -c "SELECT pg_terminate_backend(procpid) FROM pg_stat_activity WHERE datname='#{postgresql_database}';"}
+          end
+          
+          
+          
+          desc 'drop public shema so db is empty and not dropped'
+          task :drop_public_shema do
+            run %Q{#{sudo} -u postgres psql -c "drop schema public cascade on #{postgresql_database};';"}
+          end
+          
         end
         
         # eof

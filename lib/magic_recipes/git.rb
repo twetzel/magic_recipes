@@ -1,6 +1,10 @@
 # encoding: utf-8
 module MagicRecipes
-  module Rvm
+  # = Git - Deploy-Recipes
+  # 
+  # == NEED FIX .. doesnt work now !!!
+  # 
+  module Git
     def self.load_into(configuration)
       configuration.load do
         

@@ -1,5 +1,21 @@
 # encoding: utf-8
 module MagicRecipes
+  # = RVM - Deploy-Recipes
+  # 
+  # This is more for test & try pupose. Save .sqlite and copy to current after deploy.
+  # 
+  # [Tasks:]
+  #   :setup_db       # => Create shared folder.
+  # 
+  #   :save_db        # => Copy current DB to shared folder.
+  # 
+  #   :copy_db        # => Copy saved DB from shared folder to current_release
+  # 
+  # [Callbacks:]
+  #   after "deploy:setup", "sqlite:setup_db"
+  # 
+  #   more in deploy.rb ! .. becasuse ist just in case you need it .. and only works after second deploy !
+  # 
   module Sqlite
     def self.load_into(configuration)
       configuration.load do

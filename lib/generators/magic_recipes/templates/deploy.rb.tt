@@ -54,9 +54,20 @@ set :rails_env,     "production"                            #=> Rails environmen
 # => # set :git_enable_submodules, 1                            #=> Git submodules
 
 
+# PostgreSQL
+# => set :postgresql_host,      "localhost"                     #=> postgres host
+# => set :postgresql_user,      "#{ app_name }"                 #=> postgres user
+# => set :postgresql_password,  "password"                      #=> postgres user password, if not set prompt will follow
+# => set :postgresql_database,  "#{ app_name }_#{ rails_env }"  #=> postgres db name
+# => set :postgresql_pool,      5                               #=> postgres pool
+
+
 # SqLite3 ... this is more for test & try pupose (save .sqlite and copy to current after deploy)
 # => set :sqlite_path,     "#{ deploy_to }/shared/db/"          #=> shared path for db
 # => set :sqlite_db,       "#{ rails_env }"                     #=> sqlite name
+# SqLite3-callbacks
+# => before  "deploy", "sqlite:save_db"
+# => after   "deploy", "sqlite:copy_db"
 
 
 # if you want to clean up old releases on each deploy uncomment this:
@@ -66,15 +77,14 @@ set :rails_env,     "production"                            #=> Rails environmen
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #   Usage:
-#   magic_recipes :rvm, :nginx, :private_pub, :thin
+#   magic_recipes :nginx, :private_pub, :rvm, :thin
 #   available:
-#   :rvm, :rbenv, :nginx, :private_pub, :thin, :passenger, :unicorn, :assets, :gems, :sqlite, :db
+#   :assets, :db, :gems, :nginx, :passenger, :postgresql, :private_pub, :rbenv, :rvm, :sqlite, :thin, :unicorn
+#   works great:
+#   :assets, :db, :nginx, :postgresql, :private_pub, :rvm, :sqlite, :thin
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-magic_recipes :rvm, :nginx, :private_pub, :thin
+magic_recipes :assets, :nginx, :rvm, :thin
 
 
-# SqLite3-callbacks ... this is more for test & try pupose (save .sqlite and copy to current after deploy)
-# => before  "deploy", "sqlite:save_db"
-# => after   "deploy", "sqlite:copy_db"
 

@@ -1,5 +1,15 @@
 # encoding: utf-8
 module MagicRecipes
+  # = RVM - Deploy-Recipes
+  # 
+  # == unused for now
+  # 
+  # [Tasks:]
+  #   
+  # 
+  # [Callbacks:]
+  #   
+  # 
   module Unicorn
     def self.load_into(configuration)
       configuration.load do

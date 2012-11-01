@@ -1,5 +1,23 @@
 # encoding: utf-8
 module MagicRecipes
+  # = Assets - Deploy-Recipes
+  # 
+  # changed asset deployment .. include chmod 777 for public folder (my server need this)
+  # 
+  # [Tasks:]
+  #   :symlink          # => set up a symlink to the shared directory
+  # 
+  #   :precompile       # => Run the asset precompilation rake task
+  # 
+  #   :chmod            # => make the public folder public for all (777)
+  # 
+  #   :clean            # => Run the asset clean rake task
+  # 
+  # [Callbacks:]
+  #   before 'deploy:finalize_update', 'deploy:assets:symlink'
+  # 
+  #   after 'deploy:update_code', 'deploy:assets:precompile'
+  # 
   module Assets
     def self.load_into(configuration)
       configuration.load do

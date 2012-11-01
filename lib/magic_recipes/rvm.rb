@@ -1,5 +1,15 @@
 # encoding: utf-8
 module MagicRecipes
+  # = RVM - Deploy-Recipes
+  # 
+  # little helper to work on crazy rvm mashine ... mine dont accept the standard rvm handling
+  # 
+  # [Tasks:]
+  #   - - -
+  # 
+  # [Callbacks:]
+  #   - - -
+  # 
   module Rvm
     def self.load_into(configuration)
       configuration.load do

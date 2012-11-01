@@ -1,5 +1,23 @@
 # encoding: utf-8
 module MagicRecipes
+  # = Thin - Deploy-Recipes
+  # 
+  # Simple recipe to work with thin, and app configurstion / registration.
+  # 
+  # [Tasks:]
+  #   :reconf       # => Create or Update the thin yml configuration files
+  # 
+  #   :start        # => Start the private_pup server
+  # 
+  #   :stop         # => Start the private_pup server
+  # 
+  #   :restart      # => Restart the private_pup server
+  # 
+  # [Callbacks:]
+  #   before "nginx:start", "thin:start"
+  # 
+  #   before "nginx:stop", "thin:stop"
+  # 
   module Thin
     def self.load_into(configuration)
       configuration.load do

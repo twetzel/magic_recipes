@@ -1,6 +1,45 @@
 require 'capistrano'
 
 module MagicRecipes
+  # = MagicRecipes
+  # 
+  # Some capistrano-recipes for our deployment .. still in development!
+  # 
+  # [Methods:]
+  #   template(from, to)                  # => write erb template to path
+  # 
+  #   set_default(name, *args, &block)    # => set default value
+  # 
+  #   random_string(length=42)            # => generate a random string
+  # 
+  #   use_recipe(recipe_name)             # => load one recipe
+  # 
+  #   magic_recipes(*recipes)             # => load several recipes
+  # 
+  # [Usage:]
+  #   add magic_recipes to your Gemfile
+  #     gem 'magic_recipes', :require => nil
+  # 
+  #   install the gem
+  #     bundle install
+  # 
+  #   run the generator
+  #     rails g magic_recipes:capify
+  # 
+  #   edit 'config/deploy'
+  # 
+  #   enjoy some magic!
+  # 
+  # [config/deploy.rb:]
+  # 
+  #   uncomment and edit all needed vars
+  # 
+  #   add all recipes
+  #     magic_recipes :assets, :db, :nginx, :postgresql, :private_pub, :rvm, :sqlite, :thin
+  # 
+  #   add your recipes
+  #     magic_recipes :assets, :nginx, :rvm, :thin
+  # 
   def self.load_into(configuration)
     configuration.load do
       

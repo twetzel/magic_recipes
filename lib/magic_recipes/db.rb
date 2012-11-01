@@ -1,5 +1,21 @@
 # encoding: utf-8
 module MagicRecipes
+  # = Db - Deploy-Recipes
+  # 
+  # Some recipes to work with databases, especialy when you have an server, where you can't delete or create db's.
+  # 
+  # [Tasks:]
+  #   :seed           # => seed the database
+  # 
+  #   :migrate        # => migrate the database
+  # 
+  #   :delete_tables  # => delete all Tables of the Database!
+  # 
+  #   :save_reset     # => DB-Reset for user without dbcreate permission (deletes all tables than migrates again)
+  # 
+  # [Callbacks:]
+  #   - - -
+  # 
   module Db
     def self.load_into(configuration)
       configuration.load do
