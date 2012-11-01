@@ -7,7 +7,7 @@ module MagicRecipes
   # [Tasks:]
   #   :install                      # => Install the latest stable release of PostgreSQL.
   # 
-  #   :create_database              # => Create a database for this application.
+  #   :create_database              # => Create postgres database and user for this application.
   # 
   #   :setup                        # => Generate the database.yml configuration file.
   # 
@@ -16,6 +16,12 @@ module MagicRecipes
   #   :kill_postgres_connections    # => kill pgsql users so database can be dropped
   # 
   #   :drop_public_shema            # => drop public shema so db is empty and not dropped
+  # 
+  #   :create_user                  # => Create a postgres-user for this application.
+  # 
+  #   :drop_user                    # => Drop the postgres-user for this application.
+  # 
+  #   :drop_database                # => Drop the postgres-database for this application.
   # 
   # [Callbacks:]
   #   after "deploy:install", "postgresql:install"
@@ -47,12 +53,33 @@ module MagicRecipes
           end
           after "deploy:install", "postgresql:install"
           
-          desc "Create a database for this application."
+          desc "Create a database and user for this application."
           task :create_database, roles: :db, only: {primary: true} do
-            run %Q{#{sudo} -u postgres psql -c "create user #{postgresql_user} with password '#{postgresql_password}';"}
-            run %Q{#{sudo} -u postgres psql -c "create database #{postgresql_database} owner #{postgresql_user};"}
+            #run %Q{#{sudo} -u postgres psql -c "create user #{postgresql_user} with password '#{postgresql_password}';"}
+            # make a superuser .. to be able to install extensions like hstore
+            run %Q{#{sudo} -u postgres psql -c "CREATE ROLE #{postgresql_user} WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD '#{postgresql_password}';"}
+            #run %Q{#{sudo} -u postgres psql -c "create database #{postgresql_database} owner #{postgresql_user};"}
+            run %Q{#{sudo} -u postgres psql -c "CREATE DATABASE #{postgresql_database} WITH OWNER #{postgresql_user} ENCODING 'UTF8';"}
           end
           after "deploy:setup", "postgresql:create_database"
+          
+          desc "Create a postgres-user for this application."
+          task :create_user, roles: :db, only: {primary: true} do
+            # make a superuser .. to be able to install extensions like hstore
+            run %Q{#{sudo} -u postgres psql -c "CREATE ROLE #{postgresql_user} WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD '#{postgresql_password}';"}
+          end
+          
+          desc "Drop the postgres-user for this application."
+          task :drop_user, roles: :db, only: {primary: true} do
+            # make a superuser .. to be able to install extensions like hstore
+            run %Q{#{sudo} -u postgres psql -c "DROP ROLE #{postgresql_user};"}
+          end
+          
+          desc "Drop the postgres-database for this application."
+          task :drop_database, roles: :db, only: {primary: true} do
+            # make a superuser .. to be able to install extensions like hstore
+            run %Q{#{sudo} -u postgres psql -c "DROP DATABASE #{postgresql_database};"}
+          end
           
           desc "Generate the database.yml configuration file."
           task :setup, roles: :app do
