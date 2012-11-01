@@ -2,7 +2,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "magic_recipes"
-  s.version     = "0.0.20"
+  s.version     = "0.0.21"
   s.authors     = ["torsten wetzel"]
   s.email       = ["torstenwetzel@berlinmagic.com"]
   s.homepage    = "http://berlinmagic.com"
