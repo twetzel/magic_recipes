@@ -59,7 +59,7 @@ module MagicRecipes
             # make a superuser .. to be able to install extensions like hstore
             run %Q{#{sudo} -u postgres psql -c "CREATE ROLE #{postgresql_user} WITH SUPERUSER CREATEDB CREATEROLE LOGIN ENCRYPTED PASSWORD '#{postgresql_password}';"}
             #run %Q{#{sudo} -u postgres psql -c "create database #{postgresql_database} owner #{postgresql_user};"}
-            run %Q{#{sudo} -u postgres psql -c "CREATE DATABASE #{postgresql_database} WITH OWNER #{postgresql_user} ENCODING 'UTF8';"}
+            run %Q{#{sudo} -u postgres psql -c "CREATE DATABASE #{postgresql_database} WITH OWNER #{postgresql_user};"}
           end
           after "deploy:setup", "postgresql:create_database"
           
