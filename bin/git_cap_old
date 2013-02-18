@@ -13,26 +13,22 @@ spawn cap deploy
 match_max 100000
 
 # Look for user prompt
-# expect "*?sername:*"
-expect "*?sername for 'https://github.com':*"
+expect "*?sername:*"
 send -- "$g_user\r"
 send -- "\r"
 
 # Look for passwod prompt
-# expect "*?assword:*"
-expect "*?assword for *@github.com':*"
+expect "*?assword:*"
 send -- "$g_pwd\r"
 send -- "\r"
 
 # Look for user prompt
-# expect "*?sername:*"
-expect "*?sername for 'https://github.com':*"
+expect "*?sername:*"
 send -- "$g_user\r"
 send -- "\r"
 
 # Look for passwod prompt
-# expect "*?assword:*"
-expect "*?assword for *@github.com':*"
+expect "*?assword:*"
 send -- "$g_pwd\r"
 send -- "\r"
 
