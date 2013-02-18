@@ -48,6 +48,45 @@ module MagicRecipes
             end
           end
           
+          desc "drop the database"
+          task :drop do
+            if use_rvm
+              run <<-CMD
+                #{rvm_cmd} && 
+                cd #{latest_release} && 
+                #{rake} db:drop RAILS_ENV=#{rails_env}
+              CMD
+            else
+              run "cd #{latest_release} && #{rake} db:drop RAILS_ENV=#{rails_env}"
+            end
+          end
+          
+          desc "reset the database"
+          task :reset do
+            if use_rvm
+              run <<-CMD
+                #{rvm_cmd} && 
+                cd #{latest_release} && 
+                #{rake} db:reset RAILS_ENV=#{rails_env}
+              CMD
+            else
+              run "cd #{latest_release} && #{rake} db:reset RAILS_ENV=#{rails_env}"
+            end
+          end
+          
+          desc "create the database"
+          task :create do
+            if use_rvm
+              run <<-CMD
+                #{rvm_cmd} && 
+                cd #{latest_release} && 
+                #{rake} db:create RAILS_ENV=#{rails_env}
+              CMD
+            else
+              run "cd #{latest_release} && #{rake} db:create RAILS_ENV=#{rails_env}"
+            end
+          end
+          
           desc "delete all Tables of the Database!"
           task :delete_tables do
             if use_rvm
