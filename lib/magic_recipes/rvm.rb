@@ -19,7 +19,17 @@ module MagicRecipes
         
         ## change to rvm-capistrano gem, so commited out
         # $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-        # require 'rvm/capistrano'
+        require 'rvm/capistrano'
+        
+        
+        Example:
+
+        set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
+        # set :rvm_install_ruby_params, '--1.9'      # for jruby/rbx default to 1.9 mode
+
+        # before 'deploy:setup', 'rvm:install_rvm'   # install RVM
+        # before 'deploy:setup', 'rvm:install_ruby'  # install Ruby and create gemset, or:
+        # before 'deploy:setup', 'rvm:create_gemset' # only create gemset
         
         set_default :rails_env,     'production'
         set_default :rvm_ruby,      '1.9.3'
