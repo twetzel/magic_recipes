@@ -24,7 +24,7 @@ module MagicRecipes
         
         Example:
 
-        set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
+        # set :rvm_ruby_string, ENV['GEM_HOME'].gsub(/.*\//,"")
         # set :rvm_install_ruby_params, '--1.9'      # for jruby/rbx default to 1.9 mode
 
         # before 'deploy:setup', 'rvm:install_rvm'   # install RVM
@@ -36,6 +36,7 @@ module MagicRecipes
         set_default :rvm_patch,     'p0'
         set_default :rvm_gemset,    'global'
         set_default :rvm_path,      '/usr/local/rvm'
+        
         # set :rvm_type,              :system
         set :rvm_type,              :user
         set :rvm_ruby_string,       "ruby-#{rvm_ruby}-#{rvm_patch}@#{rvm_gemset}"
