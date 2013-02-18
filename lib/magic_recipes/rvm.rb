@@ -15,15 +15,19 @@ module MagicRecipes
       configuration.load do
         
         # => http://stackoverflow.com/questions/7313232/rvm-capistrano-and-bundler-path-issues
-        $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
-        require 'rvm/capistrano'
+        # => http://stackoverflow.com/questions/6968066/confused-by-rvms-instructions-for-capistrano
+        
+        ## change to rvm-capistrano gem, so commited out
+        # $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+        # require 'rvm/capistrano'
         
         set_default :rails_env,     'production'
         set_default :rvm_ruby,      '1.9.3'
         set_default :rvm_patch,     'p0'
         set_default :rvm_gemset,    'global'
         set_default :rvm_path,      '/usr/local/rvm'
-        set :rvm_type,              :system
+        # set :rvm_type,              :system
+        set :rvm_type,              :user
         set :rvm_ruby_string,       "ruby-#{rvm_ruby}-#{rvm_patch}@#{rvm_gemset}"
         set :rvm_path,              "/usr/local/rvm"
         set :rvm_bin_path,          "#{rvm_path}/bin"

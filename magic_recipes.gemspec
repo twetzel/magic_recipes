@@ -2,7 +2,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "magic_recipes"
-  s.version     = "0.0.26"
+  s.version     = "0.0.27"
   s.authors     = ["torsten wetzel"]
   s.email       = ["torstenwetzel@berlinmagic.com"]
   s.homepage    = "http://berlinmagic.com"
@@ -11,9 +11,10 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{bin,lib,spec}/**/*"] + ["MIT-LICENSE", "Rakefile", "README.markdown"]
 
-  s.add_dependency "rails",       "~> 3.2.6"
-  # s.add_dependency "capistrano",  "~> 2.12.0" .. doesnt work
-  s.add_dependency "capistrano",  "2.9.0"
+  s.add_dependency "rails",           "~> 3.2.6"
+  # s.add_dependency "capistrano",    "~> 2.12.0" .. doesnt work
+  s.add_dependency "capistrano",      "2.9.0"
+  s.add_dependency "rvm-capistrano",  "1.2.7"
   
   
   # => Add Test-Dependencies
