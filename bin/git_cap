@@ -5,8 +5,10 @@
 # ./git_cap gitusr gitpwd
 # -------------------------------------------------------------------------
 # set Variables
-set g_user [lrange $argv 0 0] 
-set g_pwd [lrange $argv 1 1]   
+set g_user [lrange $argv 0 0]
+set g_pwd [lrange $argv 1 1]
+set ulook "*?sername for 'https://github.com':.*"
+set plook "*?assword for .*@github.com':.*"
 set timeout -1   
 
 spawn cap deploy
@@ -14,25 +16,25 @@ match_max 100000
 
 # Look for user prompt
 # expect "*?sername:*"
-expect "*?sername for 'https://github.com':*"
+expect -re $ulook
 send -- "$g_user\r"
 send -- "\r"
 
 # Look for passwod prompt
 # expect "*?assword:*"
-expect "*?assword for *@github.com':*"
+expect -re $plook
 send -- "$g_pwd\r"
 send -- "\r"
 
 # Look for user prompt
 # expect "*?sername:*"
-expect "*?sername for 'https://github.com':*"
+expect -re $ulook
 send -- "$g_user\r"
 send -- "\r"
 
 # Look for passwod prompt
 # expect "*?assword:*"
-expect "*?assword for *@github.com':*"
+expect -re $plook
 send -- "$g_pwd\r"
 send -- "\r"
 
