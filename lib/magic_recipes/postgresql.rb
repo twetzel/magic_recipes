@@ -49,11 +49,11 @@ module MagicRecipes
         namespace :postgresql do
           desc "Install the latest stable release of PostgreSQL."
           task :install, roles: :db, only: {primary: true} do
-            run "#{sudo} add-apt-repository ppa:pitti/postgresql"
+            run "#{sudo} wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -"
             run "#{sudo} apt-get -y update"
-            run "#{sudo} apt-get -y install postgresql libpq-dev"
+            run "#{sudo} apt-get -y install postgresql"
             # add constrib for hstore extension
-            run "#{sudo} apt-get -y install postgresql-contrib-9.1"
+            run "#{sudo} apt-get -y install postgresql-contrib"
           end
           after "deploy:install", "postgresql:install"
           
