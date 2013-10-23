@@ -51,7 +51,7 @@ module MagicRecipes
           task :install, roles: :db, only: {primary: true} do
             run "#{sudo} wget --quiet -O - http://apt.postgresql.org/pub/repos/apt/ACCC4CF8.asc | sudo apt-key add -"
             run "#{sudo} apt-get -y update"
-            run "#{sudo} apt-get -y install postgresql"
+            run "#{sudo} apt-get -y install postgresql libpq-dev"
             # add constrib for hstore extension
             run "#{sudo} apt-get -y install postgresql-contrib"
           end
