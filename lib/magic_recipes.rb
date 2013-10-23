@@ -61,7 +61,8 @@ module MagicRecipes
       
       def template(from, to)
         erb = File.read(File.expand_path("../magic_recipes/templates/#{from}", __FILE__))
-        put ERB.new(erb).result(binding), to
+        # put ERB.new(erb).result(binding), to
+        scp ERB.new(erb).result(binding), to
       end
 
       def set_default(name, *args, &block)
