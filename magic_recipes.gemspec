@@ -2,9 +2,10 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "magic_recipes"
-  s.version     = "0.1.0"
+  s.version     = "0.1.1"
   s.authors     = ["torsten wetzel"]
   s.email       = ["torstenwetzel@berlinmagic.com"]
+  s.license     = 'MIT'
   s.homepage    = "http://berlinmagic.com"
   s.summary     = "MagicRecipes .. some capistrano recipes for our deployment."
   s.description = "Our capistrano recipes for nginx, passenger, thin, private_pub, .. include expect-script for silent-deployment of private git-repos."

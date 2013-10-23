@@ -39,7 +39,6 @@ module MagicRecipes
         # set :rvm_type,              :system
         set :rvm_type,              :user
         set :rvm_ruby_string,       "ruby-#{rvm_ruby}-#{rvm_patch}@#{rvm_gemset}"
-        set :rvm_path,              "/usr/local/rvm"
         set :rvm_bin_path,          "#{rvm_path}/bin"
         set :rvm_lib_path,          "#{rvm_path}/lib"
         set :remote_bin_path,       "#{rvm_path}/gems/ruby-#{rvm_ruby}-#{rvm_patch}/bin/"
