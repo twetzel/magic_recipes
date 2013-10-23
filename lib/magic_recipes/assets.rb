@@ -44,10 +44,10 @@ module MagicRecipes
             DESC
             task :symlink, :roles => assets_role, :except => { :no_release => true } do
               run <<-CMD
-                rm -rf #{latest_release}/public/#{assets_prefix} &&
-                mkdir -p #{latest_release}/public &&
-                mkdir -p #{shared_path}/assets &&
-                ln -s #{shared_path}/assets #{latest_release}/public/#{assets_prefix}
+                #{sudo if use_sudo} rm -rf #{latest_release}/public/#{assets_prefix} &&
+                #{sudo if use_sudo} mkdir -p #{latest_release}/public &&
+                #{sudo if use_sudo} mkdir -p #{shared_path}/assets &&
+                #{sudo if use_sudo} ln -s #{shared_path}/assets #{latest_release}/public/#{assets_prefix}
               CMD
             end
 

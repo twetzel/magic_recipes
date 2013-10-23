@@ -91,14 +91,14 @@ module MagicRecipes
           
           desc "Generate the database.yml configuration file."
           task :setup, roles: :app do
-            run "mkdir -p #{shared_path}/config"
+            run "#{sudo if use_sudo} mkdir -p #{shared_path}/config"
             template "postgresql.yml.erb", "#{shared_path}/config/postgres_#{rails_env}.yml"
           end
           after "deploy:setup", "postgresql:setup"
           
           desc "Symlink the database.yml file into latest release"
           task :symlink, roles: :app do
-            run "ln -nfs #{shared_path}/config/postgres_#{rails_env}.yml #{release_path}/config/database.yml"
+            run "#{sudo if use_sudo} ln -nfs #{shared_path}/config/postgres_#{rails_env}.yml #{release_path}/config/database.yml"
           end
           after "deploy:finalize_update", "postgresql:symlink"
           
