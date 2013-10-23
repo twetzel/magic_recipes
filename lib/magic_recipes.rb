@@ -58,13 +58,6 @@ module MagicRecipes
       default_run_options[:pty] = true
       ssh_options[:forward_agent] = true
       
-      # default put_via sftp
-      set_default :put_via,   :sftp           # => :sftp | :scp
-      
-      def template(from, to)
-        erb = File.read(File.expand_path("../magic_recipes/templates/#{from}", __FILE__))
-        put ERB.new(erb).result(binding), to, via: put_via
-      end
 
       def set_default(name, *args, &block)
         set(name, *args, &block) unless exists?(name)
@@ -78,6 +71,13 @@ module MagicRecipes
         password
       end
       
+      # default put_via sftp
+      set_default :put_via,   :sftp           # => :sftp | :scp
+      
+      def template(from, to)
+        erb = File.read(File.expand_path("../magic_recipes/templates/#{from}", __FILE__))
+        put ERB.new(erb).result(binding), to, via: put_via
+      end
       
       set_default :use_rvm,   false           # => no_rvm
       
