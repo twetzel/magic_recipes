@@ -13,6 +13,8 @@ set :server_ip,     "0.0.0.0"                               #=> IP of the Server
 set :deploy_to,     "/home/deploy/apps/#{application}"      #=> deploy path
 set :rails_env,     "production"                            #=> Rails environment
 
+# => set :use_sudo,      true
+# => set :put_via,       :scp                                    # => :sftp | :scp
 
 # rvm variables:
 # => set :rvm_ruby,             '1.9.3'                     #=> Ruby version

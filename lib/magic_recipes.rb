@@ -58,11 +58,12 @@ module MagicRecipes
       default_run_options[:pty] = true
       ssh_options[:forward_agent] = true
       
+      # default put_via sftp
+      set_default :put_via,   :sftp           # => :sftp | :scp
       
       def template(from, to)
         erb = File.read(File.expand_path("../magic_recipes/templates/#{from}", __FILE__))
-        # put ERB.new(erb).result(binding), to
-        scp ERB.new(erb).result(binding), to
+        put ERB.new(erb).result(binding), to, via: put_via
       end
 
       def set_default(name, *args, &block)
