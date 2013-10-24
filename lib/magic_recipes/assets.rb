@@ -43,6 +43,7 @@ module MagicRecipes
               :assets_prefix variable to match.
             DESC
             task :symlink, :roles => assets_role, :except => { :no_release => true } do
+              # => sudo chown <username> .
               run <<-CMD
                 #{sudo if use_sudo} rm -rf #{latest_release}/public/#{assets_prefix} &&
                 #{sudo if use_sudo} mkdir -p #{latest_release}/public &&
@@ -62,7 +63,6 @@ module MagicRecipes
                 set :asset_env, "RAILS_GROUPS=assets"
             DESC
             task :precompile, :roles => assets_role, :except => { :no_release => true } do
-              # run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
               if make_pulbic_folder_public
                 chmod
               end
@@ -70,16 +70,27 @@ module MagicRecipes
                 run <<-CMD
                     #{rvm_cmd} && 
                     cd #{latest_release} && 
-                    #{"#{sudo} -i -u #{user}" if use_sudo} #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile
+                    #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile
                   CMD
               else
-                run "cd #{latest_release} && #{"#{sudo} -i -u #{user}" if use_sudo} #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
+                run <<-CMD
+                    cd #{latest_release} && 
+                    #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile
+                  CMD
               end
             end
             
             desc "make the public folder public for all (777)"
             task :chmod, :roles => assets_role, :except => { :no_release => true } do
-              run "cd #{latest_release} && #{sudo} chmod -R 777 public/ && #{sudo} chmod -R 777 tmp/"
+              run <<-CMD
+                    cd #{latest_release} && 
+                    #{sudo} chmod -R 777 public/ && 
+                    #{sudo} chmod -R 777 tmp/
+                  CMD
+              run <<-CMD
+                    cd #{shared_path} && 
+                    #{sudo} chmod -R 777 assets/
+                  CMD
             end
 
             desc <<-DESC
@@ -94,7 +105,21 @@ module MagicRecipes
                 set :asset_env, "RAILS_GROUPS=assets"
             DESC
             task :clean, :roles => assets_role, :except => { :no_release => true } do
-              run "cd #{latest_release} && #{"#{sudo} -i -u #{user}" if use_sudo} #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:clean"
+              if make_pulbic_folder_public
+                chmod
+              end
+              if use_rvm
+                run <<-CMD
+                    #{rvm_cmd} && 
+                    cd #{latest_release} && 
+                    #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:clean
+                  CMD
+              else
+                run <<-CMD
+                    cd #{latest_release} && 
+                    #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:clean
+                  CMD
+              end
             end
           end
         end
