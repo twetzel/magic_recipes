@@ -70,7 +70,7 @@ module MagicRecipes
                 run <<-CMD
                     #{rvm_cmd} && 
                     cd #{latest_release} && 
-                    #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile
+                    #{sudo if use_sudo} #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile
                   CMD
               else
                 run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:precompile"
@@ -94,7 +94,7 @@ module MagicRecipes
                 set :asset_env, "RAILS_GROUPS=assets"
             DESC
             task :clean, :roles => assets_role, :except => { :no_release => true } do
-              run "cd #{latest_release} && #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:clean"
+              run "cd #{latest_release} && #{sudo if use_sudo} #{rake} RAILS_ENV=#{rails_env} #{asset_env} assets:clean"
             end
           end
         end
