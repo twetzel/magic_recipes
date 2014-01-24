@@ -92,6 +92,7 @@ module MagicRecipes
           desc "Generate the database.yml configuration file."
           task :setup, roles: :app do
             run "#{sudo if use_sudo} mkdir -p #{shared_path}/config"
+            run "#{sudo if use_sudo} chmod -R 777 #{shared_path}/config"
             template "postgresql.yml.erb", "#{shared_path}/config/postgres_#{rails_env}.yml"
           end
           after "deploy:setup", "postgresql:setup"
