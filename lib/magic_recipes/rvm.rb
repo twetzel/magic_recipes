@@ -61,7 +61,8 @@ module MagicRecipes
           desc "Create gemset"
           rvm_task :create_gemset do
             # run "source '#{rvm_path}/scripts/rvm' && rvm use #{rvm_ruby}-#{rvm_patch}@#{rvm_gemset} --create"
-            run "source '#{rvm_path}/scripts/rvm' && rvm use #{rvm_ruby}-#{rvm_patch} && rvm gemset create #{rvm_gemset}"
+            # run "source '#{rvm_path}/scripts/rvm' && rvm use #{rvm_ruby}-#{rvm_patch} && rvm gemset create #{rvm_gemset}"
+            run "rvm #{rvm_ruby}-#{rvm_patch} do rvm gemset create #{rvm_gemset}"
           end
         end
         
