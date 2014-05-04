@@ -27,7 +27,7 @@ module MagicRecipes
         # set :rvm_install_ruby_params, '--1.9'      # for jruby/rbx default to 1.9 mode
         # before 'deploy:setup', 'rvm:install_rvm'   # install RVM
         # before 'deploy:setup', 'rvm:install_ruby'  # install Ruby and create gemset, or:
-        # before 'deploy:setup', 'rvm:create_gemset' # only create gemset
+        before 'deploy:setup', 'rvm:create_gemset' # only create gemset
         
         
         set_default :rails_env,     'production'
@@ -56,6 +56,13 @@ module MagicRecipes
 
         set :bundle_dir,            "#{rvm_path}/gems/#{rvm_ruby_string}"
         set :bundle_flags,          "--deployment --verbose"
+        
+        namespace :rvm do
+          desc "Create gemset"
+          rvm_task :create_gemset do
+            run "#{rvm_cmd} --create"
+          end
+        end
         
         # eof
         

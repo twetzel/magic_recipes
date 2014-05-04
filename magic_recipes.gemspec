@@ -2,7 +2,7 @@ $:.push File.expand_path("../lib", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "magic_recipes"
-  s.version     = "0.1.12"
+  s.version     = "0.1.13"
   s.authors     = ["torsten wetzel"]
   s.email       = ["torstenwetzel@berlinmagic.com"]
   s.license     = 'MIT'
@@ -17,7 +17,8 @@ Gem::Specification.new do |s|
   # => s.add_dependency "capistrano",      "2.9.0"
   # => s.add_dependency "rvm-capistrano",  "1.2.7"
   
-  s.add_dependency "rails",           "~> 4.0.0"
+  # => s.add_dependency "rails",           "~> 4.0.0"
+  s.add_dependency "rails",           ">=  3.2.6"
   s.add_dependency "capistrano"
   s.add_dependency "rvm-capistrano"
   
